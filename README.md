@@ -2,6 +2,9 @@
 Ohio Quarterly production data API for inerG Technical Test
 
 ## Installation
+
+Install Python3 if you don't already have it installed
+
 Clone the repo `git clone https://github.com/AlfredConlan/inerg-api.git`
 
 Open the project in your editor
