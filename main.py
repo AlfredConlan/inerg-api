@@ -4,6 +4,7 @@ import sqlite3
 
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
 def db_connection():
     conn = None
@@ -24,7 +25,7 @@ def single_well():
         cursor.execute("SELECT * FROM OhioWells WHERE Well_Number=?", (well_number,))
         well = cursor.fetchone()
         if well is not None:
-            newResponse =  {"oil": well[2], "gas":well[3], "brine":well[4]}
+            newResponse =   {"oil": well[2], "gas":well[3], "brine":well[4]}
             return jsonify(newResponse), 200
         else:
             return jsonify(well), 404
