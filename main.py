@@ -15,17 +15,56 @@ def db_connection():
             print(e)
     return conn
 
+###############################################################
+# import all the data from the spreadsheet into the database
+# create a full crud api and use sql to manipulate data
+###############################################################
+
 # Set up the route for the GET request
-@app.route("/data", methods=["GET"])
+@app.route("/data", methods=["GET", "POST", "PUT", "DELETE"])
 def single_well():
     # Get the arguments passed in - in this case well= and well number
     args = request.args
     well_number = args.get('well')
+    quarter = args.get("quarter")
     # Make the connection and set up a cursor for the query
     conn = db_connection()
     cursor = conn.cursor()
     well = None
     if request.method == "GET":
+        # Select the record based on the matching well number
+        cursor.execute("SELECT * FROM OhioWells WHERE Well_Number=?", (well_number,))
+        well = cursor.fetchone()
+        # Test that something was returned from the query
+        if well is not None:
+            # Return the results in the desired format
+            newResponse =   {"oil": well[2], "gas":well[3], "brine":well[4]}
+            return jsonify(newResponse), 200
+        else:
+            return jsonify(well), 404
+    if request.method == "POST":
+        # Select the record based on the matching well number
+        cursor.execute("SELECT * FROM OhioWells WHERE Well_Number=?", (well_number,))
+        well = cursor.fetchone()
+        # Test that something was returned from the query
+        if well is not None:
+            # Return the results in the desired format
+            newResponse =   {"oil": well[2], "gas":well[3], "brine":well[4]}
+            return jsonify(newResponse), 200
+        else:
+            return jsonify(well), 404
+    if request.method == "PUT":
+        # Select the record based on the matching well number
+        cursor.execute("SELECT * FROM OhioWells WHERE Well_Number=?", (well_number,))
+        well = cursor.fetchone()
+        # Test that something was returned from the query
+        if well is not None:
+            # Return the results in the desired format
+            newResponse =   {"oil": well[2], "gas":well[3], "brine":well[4]}
+            return jsonify(newResponse), 200
+        else:
+            return jsonify(well), 404
+    if request.method == "DELETE":
         # Select the record based on the matching well number
         cursor.execute("SELECT * FROM OhioWells WHERE Well_Number=?", (well_number,))
         well = cursor.fetchone()
